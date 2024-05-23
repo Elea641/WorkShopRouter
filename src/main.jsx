@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import { PokemonList } from "./components/PokemonList";
 import { PokemonDetails } from "./components/PokemonDetails";
+import Details from "./components/Details";
 
 const fetchApi = (url) => {
   return fetch(url)
@@ -27,16 +28,19 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <PokemonList />,
-        loader: async () => fetchApi("data.json"),
+        loader: () => fetchApi("data.json"),
       },
       {
         path: "/:id",
         element: <PokemonDetails />,
-        loader: async ({ params }) => {
-          if (params.id) {
-            return fetchPokemonById(`data.json`, params.id);
-          }
+        loader: ({ params }) => {
+          return fetchPokemonById("data.json", params.id);
         },
+      },
+      {
+        path: "/:category/:id",
+        element: <Details />,
+        loader: () => fetchapi("../data2.json"),
       },
     ],
   },
